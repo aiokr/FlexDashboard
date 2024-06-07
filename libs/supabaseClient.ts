@@ -36,12 +36,9 @@ export function useAuthUser() {
   const register = async ({ email, password, ...meta }: UserInfoType): Promise<UserInfoType | null> => {
     const { user, error }: any = await supabase.auth.signUp(
       { email, password }
-    ).then((res) => {window.location.replace('/user?pagePurpose=verfiyEmail')});
+    ).then((res) => { window.location.replace('/user/verify-email') });
 
     if (error) throw error;
-    if (user) {
-    }
-
     return user;
   };
 

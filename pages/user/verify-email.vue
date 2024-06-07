@@ -1,14 +1,10 @@
 <script setup async lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from "vue-router";
-import { useAuthUser } from "../libs/supabaseClient";
+import { useAuthUser } from "@/libs/supabaseClient";
 
 const router = useRouter();
 const { register } = useAuthUser();
-
-const route = useRoute()
-console.log(route.query.pagePurpose)
-const pagePurpose = ref(route.query.pagePurpose);
 
 // Form reactive ref to keep up with the form data
 const form = ref({
@@ -35,39 +31,13 @@ const handleSubmit = async () => {
   }
 };
 
-var pageTitle: string;
-if (pagePurpose.value === "register") {
-  pageTitle = "Register";
-} else if (pagePurpose.value === "login") {
-  pageTitle = "Login";
-} else if (pagePurpose.value === "verify-email") {
-  pageTitle = "Verify Email";
-} else {
-  pageTitle = "User Actions";
-};
-
 </script>
 
 <template>
   <main class="container max-w-[600px] mx-auto border rounded-xl py-12 px-8">
-    <h1 class="text-2xl font-bold pb-6">{{ pageTitle }}</h1>
-    <section v-if="pagePurpose === 'register'" class="container mx-auto">
-      <form class=" flex flex-col" @submit.prevent="handleSubmit">
-        <div class="flex flex-col gap-4">
-          <div>
-            <label>Name <input v-model="form.name" type="text" /></label>
-          </div>
-          <label>Email <input v-model="form.email" type="email" /></label>
-          <label>Password <input v-model="form.password" type="password" /></label>
-        </div>
-        <button class="btn">Register</button>
-      </form>
-    </section>
-    <section v-else-if="pagePurpose === 'login'">
-      <p>Some other content</p>
-    </section>
-    <section v-else-if="pagePurpose === 'verify-email'">
-      <p>Some other content</p>
+    <h1 class="text-2xl font-bold pb-6">Verify Email</h1>
+    <section class="container mx-auto">
+      <div>We send an email to your mailbox, please check it.</div>
     </section>
   </main>
 </template>
