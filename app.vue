@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { RouterView } from 'vue-router';
 import Header from './components/Header.vue';
 import Menu from './components/Menu.vue';
 import { supabase } from './libs/supabaseClient';
@@ -16,7 +15,7 @@ import { supabase } from './libs/supabaseClient';
         </el-aside>
         <el-container>
           <el-main>
-            <RouterView />
+            <NuxtPage />
           </el-main>
           <el-footer>
             <div class="bg-zinc-500 text-white text-sm py-4 px-4">

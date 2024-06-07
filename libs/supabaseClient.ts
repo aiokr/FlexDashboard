@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { createClient } from '@supabase/supabase-js'
 
 console.log(import.meta.env.VITE_SUPABASE_URL)
-export const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+export const supabase = useSupabaseClient()
 
 const user = ref(null);
 
@@ -21,19 +21,25 @@ export function useAuthUser() {
 
   // login with email and password
   const login = async ({ email, password }: UserInfoType) => {
-    const { data, error } = await supabase.auth.signInWithPassword(
+    const { data, error }: any = await supabase.auth.signInWithPassword(
       { email, password }
-    );
+    ).then(() => { window.location.replace('/') });
+    console.log(data)
     if (error) throw error;
-    return user;
+    return data;
   };
 
   const loginWithSocialProvider = (provider: any) => { }; // login with social provider
   const logout = async () => { }; // logout
-  const isLoggedIn = () => { }; // check if user is logged in
+
+  // check if user is logged in
+  const isLoggedIn = () => {
+    return !!user.value;
+  };
 
   // register with email and password
   const register = async ({ email, password, ...meta }: UserInfoType): Promise<UserInfoType | null> => {
+    console.log(email)
     const { user, error }: any = await supabase.auth.signUp(
       { email, password }
     ).then((res) => { window.location.replace('/user/verify-email') });
@@ -45,7 +51,16 @@ export function useAuthUser() {
   const update = async (data: any) => { }; // update user profile
   const sendPasswordRestEmail = async (email: string) => { }; // send password reset email
 
+  // get session
+  const getSession = async () => {
+    const { data, error } = await supabase.auth.getSession()
+    if (error) throw error;
+    return data;
+  }
+
+
   return {
+    getSession,
     user,
     login,
     loginWithSocialProvider,
