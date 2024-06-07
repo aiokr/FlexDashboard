@@ -2,9 +2,13 @@
 export default defineNuxtConfig({
   modules: ['@element-plus/nuxt', '@nuxtjs/tailwindcss', "@nuxtjs/supabase"],
   devtools: { enabled: true },
-  components: {
-    dirs: []
-  },
+  components: [
+    {
+      path: '~/components/',
+      pathPrefix: true,
+    },
+  ],
+  srcDir: 'src/',
   postcss: {
     plugins: {
       tailwindcss: {},

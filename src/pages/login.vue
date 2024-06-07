@@ -1,7 +1,7 @@
 <script setup async lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from "vue-router";
-import { useAuthUser } from "@/libs/supabaseClient";
+import { useAuthUser } from "../libs/supabaseClient";
 
 const router = useRouter();
 const { login, loginWithSocialProvider } = useAuthUser();

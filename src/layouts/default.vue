@@ -1,8 +1,8 @@
-<script lang="ts" setup>
-import Header from './components/Header.vue';
-import Menu from './components/Menu.vue';
-
+<script setup lang="ts">
+import Header from '@/components/Header.vue';
+import Menu from '@/components/Menu.vue';
 </script>
+
 <template>
   <main class="w-screen h-screen overflow-auto">
     <div class="common-layout">
@@ -13,7 +13,7 @@ import Menu from './components/Menu.vue';
         </el-aside>
         <el-container>
           <el-main>
-            <NuxtPage />
+            <slot />
           </el-main>
           <el-footer>
             <div class="bg-zinc-500 text-white text-sm py-4 px-4">
