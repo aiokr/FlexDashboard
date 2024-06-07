@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { RouterView } from 'vue-router';
 import Header from './components/Header.vue';
 import Menu from './components/Menu.vue';
+import { supabase } from './libs/supabaseClient';
 
 </script>
 <template>
