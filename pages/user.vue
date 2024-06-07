@@ -1,13 +1,23 @@
-<script setup lang="ts">
+<script setup async lang="ts">
+import { onMounted, ref } from 'vue';
 import { useAuthUser } from "@/libs/supabaseClient";
 
 definePageMeta({
   middleware: ["auth"]
 })
 
-const getSession = useAuthUser().getSession;
-const sessionData = await getSession();
-console.log(sessionData);
+const sessionData = ref();
+
+const loadSession = async () => {
+  const getSession = useAuthUser().getSession;
+  sessionData.value = await getSession();
+  console.log(sessionData.value);
+};
+
+onMounted(() => {
+  loadSession();
+});
+
 </script>
 
 <template>
