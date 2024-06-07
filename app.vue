@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
 import Header from './components/Header.vue';
 import Menu from './components/Menu.vue';
-import { supabase } from './libs/supabaseClient';
 
 </script>
 <template>
