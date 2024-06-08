@@ -9,6 +9,14 @@ export default defineNuxtConfig({
     },
   ],
   srcDir: 'src/',
+  supabase: {
+    redirectOptions: {
+      login: '/login',
+      callback: '/callback',
+      include: ['/', '/user/*'],
+      exclude: ['/'],
+    },
+  },
   postcss: {
     plugins: {
       tailwindcss: {},

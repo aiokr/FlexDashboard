@@ -1,10 +1,6 @@
 <script setup async lang="ts">
 import { onMounted, ref } from 'vue';
 
-definePageMeta({
-  middleware: 'auth'
-})
-
 const user = useSupabaseUser()
 console.log(user);
 

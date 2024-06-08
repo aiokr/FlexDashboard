@@ -1,10 +1,20 @@
 <script setup async lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRouter } from "vue-router";
-import { useAuthUser } from "../libs/supabaseClient";
 
-const router = useRouter();
-const { login, loginWithSocialProvider } = useAuthUser();
+const supabase = useSupabaseClient()
+
+const login = async (form: { email: string; password: string }) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: form.email,
+    password: form.password,
+  });
+  if (error) {
+    console.error(error.message);
+    throw error;
+  }
+  console.log(data);
+  window.location.href = "/user/info";
+}
 
 // Form reactive ref to keep up with the form data
 const form = ref({
