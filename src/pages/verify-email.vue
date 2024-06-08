@@ -1,36 +1,4 @@
 <script setup async lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRouter } from "vue-router";
-import { useAuthUser } from "@/libs/supabaseClient";
-
-const router = useRouter();
-const { register } = useAuthUser();
-
-// Form reactive ref to keep up with the form data
-const form = ref({
-  name: "",
-  email: "",
-  password: "",
-});
-
-// function to hand the form submit
-const handleSubmit = async () => {
-  try {
-
-    // use the register method from the AuthUser composable
-    await register(form.value);
-
-    // and redirect to a EmailConfirmation page the will instruct
-    // the user to confirm they're email address
-    router.push({
-      name: "EmailConfirmation",
-      query: { email: form.value.email },
-    });
-  } catch (error: any) {
-    alert(error.message);
-  }
-};
-
 </script>
 
 <template>
