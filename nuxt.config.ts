@@ -14,7 +14,7 @@ export default defineNuxtConfig({
     redirectOptions: {
       login: '/login',
       callback: '/callback',
-      include: ['/settings(/*)?', '/user(/*)?'],
+      include: ['/settings(/*)?', '/admin(/*)?'],
     },
   },
   postcss: {

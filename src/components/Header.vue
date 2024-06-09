@@ -18,22 +18,24 @@ const logout = async () => {
   await supabase.auth.signOut()
   window.location.href = "/login"
 }
-
 </script>
 
 <template>
   <el-header class="flex items-center justify-between">
     <h1 class="text-lg font-bold mr-auto">FlexBoard</h1>
     <div>
-      <el-popover placement="bottom-end" :title="userName" :width="200" trigger="click"
-        content="this is content, this is content, this is content">
+      <el-popover placement="bottom-end" :title="userName || 'No Login'" :width="200" trigger="click" content="this is content, this is content, this is content">
         <template #reference>
-          <el-avatar>{{userName}}</el-avatar>
+          <el-avatar v-if="!userName">No Login</el-avatar>
+          <el-avatar v-else>{{ userName }}</el-avatar>
         </template>
         <template #default>
           {{ userEmail }}
           <div class="flex justify-between pt-3">
-            <el-button @click="logout">Logout</el-button>
+            <NuxtLink to="/login" v-if="!userName">
+              <el-button>Login</el-button>
+            </NuxtLink>
+            <el-button v-else @click="logout">Logout</el-button>
             <NuxtLink to="/settings">
               <el-button type="primary">Settings</el-button>
             </NuxtLink>
@@ -44,4 +46,8 @@ const logout = async () => {
   </el-header>
 </template>
 
-<style scoped></style>
+<style>
+.el-avatar {
+  var(--el-avatar-bg-color): #71afdd;
+}
+</style>

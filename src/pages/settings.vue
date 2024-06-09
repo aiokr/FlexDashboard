@@ -4,10 +4,21 @@ import { onMounted, ref } from 'vue';
 const supabase = useSupabaseClient()
 const userProfileTable = ref<any | null>(null)
 const userProfile = ref<any | null>(null)
+
 onMounted(async () => {
   const { data, error } = await supabase.auth.getUser()
+
   userProfile.value = data
-  console.log(data)
+
+  const userRole = ref('')
+
+  await $fetch('/getUserRole', {
+    method: 'post',
+    body: data
+  }).then((res) => {
+    userRole.value = res
+  })
+
   userProfileTable.value = [
     {
       id: 1,
@@ -18,6 +29,11 @@ onMounted(async () => {
       id: 2,
       item: 'Email',
       value: data.user?.email
+    },
+    {
+      id: 3,
+      item: 'Role',
+      value: userRole.value.role
     }
   ]
 
@@ -70,7 +86,6 @@ const changeName = async (newName: string) => {
     return item
   })
 }
-
 </script>
 
 <template>
@@ -83,6 +98,7 @@ const changeName = async (newName: string) => {
       <el-table :data="userProfileTable" style="width: 800px" :show-header="false" @row-click="handleEditMetadata">
         <el-table-column prop="item" label="Item" width="180" />
         <el-table-column prop="value" label="Value" />
+        <el-table-column prop="role" label="Role" width="180" />
       </el-table>
     </section>
   </main>
@@ -92,11 +108,8 @@ const changeName = async (newName: string) => {
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="editNamedialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="changeName(newName)">
-          Confirm
-        </el-button>
+        <el-button type="primary" @click="changeName(newName)"> Confirm </el-button>
       </div>
     </template>
   </el-dialog>
-
 </template>
