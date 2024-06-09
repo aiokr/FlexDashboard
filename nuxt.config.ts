@@ -10,11 +10,11 @@ export default defineNuxtConfig({
   ],
   srcDir: 'src/',
   supabase: {
+    redirect: true,
     redirectOptions: {
       login: '/login',
       callback: '/callback',
-      include: ['/', '/user/*'],
-      exclude: ['/'],
+      include: ['/settings(/*)?', '/user(/*)?'],
     },
   },
   postcss: {
