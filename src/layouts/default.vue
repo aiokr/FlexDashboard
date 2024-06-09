@@ -8,7 +8,7 @@ import Menu from '@/components/Menu.vue';
     <div class="common-layout">
       <Header />
       <el-container>
-        <el-aside width="200px">
+        <el-aside class="hidden md:block" width="200px">
           <Menu />
         </el-aside>
         <el-container>

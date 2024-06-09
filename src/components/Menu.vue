@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 
 const supabase = useSupabaseClient()
-const userRole = ref('')
+const userRole = ref<any>()
 
 onMounted(async () => {
   // Get the user's data from Supabase Auth

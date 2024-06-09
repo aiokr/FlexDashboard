@@ -4,11 +4,21 @@ import { ref, onMounted } from 'vue';
 const supabase = useSupabaseClient()
 const userName = ref<any | null>(null)
 const userEmail = ref<any | null>(null)
+const userRole = ref<any>()
 
 onMounted(async () => {
   const { data, error } = await supabase.auth.getUser()
   userName.value = data.user?.user_metadata.name
   userEmail.value = data.user?.email
+
+  // Get the user's role from Database
+   await $fetch('/getUserRole', {
+    method: 'post',
+    body: data
+  }).then((res) => {
+    userRole.value = res
+  })
+
   if (error) {
     console.error(error)
   }
@@ -22,9 +32,25 @@ const logout = async () => {
 
 <template>
   <el-header class="flex items-center justify-between">
-    <h1 class="text-lg font-bold mr-auto">FlexBoard</h1>
+    <el-dropdown>
+      <h1 class="text-lg font-bold mr-auto">FlexBoard</h1>
+      <template #dropdown>
+        <NuxtLink to="/"><el-dropdown-item>Dashboard</el-dropdown-item></NuxtLink>
+        <NuxtLink to="/tools"><el-dropdown-item>Tools</el-dropdown-item></NuxtLink>
+        <NuxtLink to="/settings"><el-dropdown-item>Settings</el-dropdown-item></NuxtLink>
+        <NuxtLink v-if="userRole && userRole.role === 'ADMIN'" to="/admin">
+          <el-dropdown-item>Admin</el-dropdown-item>
+        </NuxtLink>
+      </template>
+    </el-dropdown>
     <div>
-      <el-popover placement="bottom-end" :title="userName || 'No Login'" :width="200" trigger="click" content="this is content, this is content, this is content">
+      <el-popover
+        placement="bottom-end"
+        :title="userName || 'No Login'"
+        :width="200"
+        trigger="click"
+        content="this is content, this is content, this is content"
+      >
         <template #reference>
           <el-avatar v-if="!userName">No Login</el-avatar>
           <el-avatar v-else>{{ userName }}</el-avatar>
@@ -46,8 +72,4 @@ const logout = async () => {
   </el-header>
 </template>
 
-<style>
-.el-avatar {
-  var(--el-avatar-bg-color): #71afdd;
-}
-</style>
+<style scoped></style>
