@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { menuItems } from './menuItems.js';
+import {
+  Open as Open,
+  Odometer as OdometerIcon,
+  Compass as CompassIcon,
+  Setting as SettingIcon,
+} from '@element-plus/icons-vue'
 
 const supabase = useSupabaseClient()
 const userRole = ref<any>()
@@ -9,22 +16,40 @@ onMounted(async () => {
   const { data, error } = await supabase.auth.getUser()
 
   // Get the user's role from Database
-   await $fetch('/getUserRole', {
+  await $fetch('/getUserRole', {
     method: 'post',
     body: data
   }).then((res) => {
     userRole.value = res
   })
 })
+
+// 创建映射表
+const iconMap: { [key: string]: any } = {
+  Odometer: OdometerIcon,
+  Compass: CompassIcon,
+  Setting: SettingIcon,
+};
+
 </script>
 
 <template>
   <el-menu default-active="2" class="el-menu-vertical-demo color-red-500">
-    <NuxtLink to="/"><el-menu-item index="1-1">Dashboard</el-menu-item></NuxtLink>
-    <NuxtLink to="/tools"><el-menu-item index="1-2">Tools</el-menu-item></NuxtLink>
-    <NuxtLink to="/settings"><el-menu-item index="1-y">Settings</el-menu-item></NuxtLink>
+    <NuxtLink v-for="(item) in menuItems" :key="item.index" :to="item.path">
+      <el-menu-item :index="item.index">
+        <el-icon>
+          <component :is="iconMap[item.icon]" />
+        </el-icon>
+        {{ item.title }}
+      </el-menu-item>
+    </NuxtLink>
     <NuxtLink v-if="userRole && userRole.role === 'ADMIN'" to="/admin">
-      <el-menu-item index="1-">Admin</el-menu-item>
+      <el-menu-item index="1-z">
+        <el-icon>
+          <Open />
+        </el-icon>
+        Admin
+      </el-menu-item>
     </NuxtLink>
   </el-menu>
 </template>
