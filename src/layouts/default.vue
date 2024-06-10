@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Header from '@/components/Header.vue';
 import Menu from '@/components/Menu.vue';
+import { isCollapse } from '@/components/Menu.vue';
 </script>
 
 <template>
@@ -8,7 +9,7 @@ import Menu from '@/components/Menu.vue';
     <div class="common-layout">
       <Header />
       <el-container>
-        <el-aside class="hidden md:block" width="200px">
+        <el-aside class="hidden md:block" :width="isCollapse ? '72px' : '200px'">
           <Menu />
         </el-aside>
         <el-container>
@@ -25,3 +26,17 @@ import Menu from '@/components/Menu.vue';
     </div>
   </main>
 </template>
+
+<style>
+.el-aside {
+  height: calc(100vh - 64px);
+  transition: width 0.3s ease;
+  scrollbar-width: none;
+  overflow: hidden;
+
+}
+
+.el-container {
+  transition: width 0.3s ease;
+}
+</style>
