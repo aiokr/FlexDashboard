@@ -1,13 +1,29 @@
 <script setup async lang="ts">
 import { onMounted, ref } from 'vue';
-import { Files } from '@element-plus/icons-vue'
+import { Files, Loading } from '@element-plus/icons-vue'
 
 const tools = [
   {
-    title: 'PDF 单面扫描合并',
-    path: '/tools/pdf',
-    icon: Files,
-    color: 'red'
+    category: '向着星辰与深渊',
+    tools: [
+      {
+        title: '地球图像',
+        path: '/tools/himawari',
+        icon: Loading,
+        color: 'zinc'
+      }
+    ]
+  },
+  {
+    category: 'PDF 工具',
+    tools: [
+      {
+        title: 'PDF 单面扫描合并',
+        path: '/tools/pdf',
+        icon: Files,
+        color: 'red'
+      }
+    ]
   }
 ]
 </script>
@@ -16,18 +32,21 @@ const tools = [
   <header class="pb-6">
     <h1 class="text-3xl font-bold">Flex Toolbox</h1>
   </header>
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-    <NuxtLink v-for="(tool) in tools" :key="tool.title" :to="tool.path"
-      class="flex flex-col justify-between items-start h-36 border rounded-2xl p-4 bg-gradient-to-br to-white"
-      :class="tool.color + '-bg'">
-      <div class="h-10 text-white rounded-full aspect-square flex items-center justify-center"
-        :class="tool.color + '-icon'">
-        <el-icon size="22">
-          <component :is="tool.icon" />
-        </el-icon>
-      </div>
-      {{ tool.title }}
-    </NuxtLink>
+  <div v-for="item in tools" class="container">
+    <h2 class="text-xl font-bold pt-6 pb-3">{{ item.category }}</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <NuxtLink v-for="(tool) in item.tools" :key="tool.title" :to="tool.path"
+        class="flex flex-col justify-between items-start h-36 border rounded-2xl p-4 bg-gradient-to-br to-white"
+        :class="tool.color + '-bg'">
+        <div class="h-10 text-white rounded-full aspect-square flex items-center justify-center"
+          :class="tool.color + '-icon'">
+          <el-icon size="22">
+            <component :is="tool.icon" />
+          </el-icon>
+        </div>
+        {{ tool.title }}
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
@@ -45,7 +64,14 @@ const tools = [
 }
 
 .red-bg {
-  @apply from-red-100;
+  @apply from-red-50;
 }
 
+.zinc-icon {
+  @apply bg-zinc-400;
+}
+
+.zinc-bg {
+  @apply from-zinc-100;
+}
 </style>
