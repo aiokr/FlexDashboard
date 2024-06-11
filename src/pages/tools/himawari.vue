@@ -116,8 +116,8 @@ const handleFullScreen = () => {
         </el-icon>
       </el-button>
     </div>
-    <div class="pt-4 flex justify-center">
-      <img :src="himawariPic_url" :alt="himawariPic_url" />
+    <div class="pt-4 flex justify-center min-h-72">
+      <img v-if="satellite === 'himawari8'" :src="himawariPic_url" :alt="himawariPic_url" class="w-full" />
     </div>
     <div class="pt-4 flex flex-col items-center justify-center container mx-aut0 max-w-[800px]">
       <div class="flex items-center gap-8 w-full">
@@ -133,8 +133,34 @@ const handleFullScreen = () => {
           </el-icon>
         </el-button>
       </div>
-      <el-date-picker v-model="pickTime" type="datetime" placeholder="Pick a Date" @disabled-date="disabledDate($event)"
-        @change="handleChangeTime" />
+      <div class="container flex items-center justify-center gap-4">
+        <el-select v-model="satellite" placeholder="Select" style="width: 240px">
+          <el-option label="向日葵8号" value="himawari8" />
+          <el-option label="风云4号" value="fy4a" />
+        </el-select>
+        <el-date-picker isdark v-model="pickTime" type="datetime" placeholder="Pick a Date" editable="false"
+          @disabled-date="disabledDate($event)" @change="handleChangeTime" />
+      </div>
     </div>
   </section>
 </template>
+
+<style>
+#starContain .el-date-editor--datetime {
+  --el-fill-color-blank: #212121;
+  --el-border-color-hover: #00000000;
+  --el-border-color-active: #00000000;
+  --el-border-color: #00000000;
+  --el-input-focus-border: #00000000;
+  --el-input-focus-border-color: #00000000;
+}
+
+#starContain .el-select {
+  --el-fill-color-blank: #212121;
+  --el-border-color-hover: #00000000;
+  --el-border-color-active: #00000000;
+  --el-border-color: #00000000;
+  --el-input-focus-border: #00000000;
+  --el-color-primary: #00000000;
+}
+</style>
