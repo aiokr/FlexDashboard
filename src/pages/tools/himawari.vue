@@ -27,7 +27,7 @@ const handleChangeTime = (event: any) => {
 // 向前向后选择
 const handleFrontOrBack = (isFront: boolean) => {
   const time = pickTime.value
-  const newTime = new Date(isFront ? time.getTime() - 60 * 60 * 1000 : time.getTime() + 10 * 60 * 1000)
+  const newTime = new Date(isFront ? time.getTime() - 60 * 60 * 1000 : time.getTime() + 60 * 60 * 1000)
   if (newTime.getTime() > utcNow.getTime()) {
     pickTime.value = utcNow
     return
@@ -138,8 +138,8 @@ const handleFullScreen = () => {
           <el-option label="向日葵8号" value="himawari8" />
           <el-option label="风云4号" value="fy4a" />
         </el-select>
-        <el-date-picker isdark v-model="pickTime" type="datetime" placeholder="Pick a Date" editable="false"
-          @disabled-date="disabledDate($event)" @change="handleChangeTime" />
+        <el-date-picker isdark v-model="pickTime" type="datetime" placeholder="Pick a Date" :editable="false"
+          @change="handleChangeTime" />
       </div>
     </div>
   </section>
