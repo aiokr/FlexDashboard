@@ -4,7 +4,7 @@ import { FullScreen, DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { fa } from 'element-plus/es/locales.mjs';
 
 // 卫星选择
-const satellite = ref('himawari8')
+const satellite = ref('himawari8') // fy4b fy4bWeather noaaChina noaaPacific noaaAtlantic himawari9
 
 // 获取当前时间
 const now = new Date()
@@ -21,35 +21,64 @@ const handleChangeTime = (event: any) => {
   }
 
   pickTime.value = event // 更新选择时间
+
+  // 向日葵8号卫星时，时间为整10分钟
+  if (satellite.value === 'himawari8') {
+    const minute = event.getMinutes()
+    const newMinute = Math.floor(minute / 10) * 10
+    pickTime.value.setMinutes(newMinute)
+    pickTime.value.setSeconds(0)
+  }
+
+  // 风云4号卫星时，时间为整15分钟
+  if (satellite.value === 'fy4b' || satellite.value === 'fy4bWeather') {
+    const minute = event.getMinutes()
+    const newMinute = Math.floor(minute / 15) * 15
+    pickTime.value.setMinutes(newMinute)
+    pickTime.value.setSeconds(0)
+  }
+
+  pickTime.value = pickTime.value // 更新输入框显示的时间
   sliderValue.value = Math.floor((pickTime.value.getTime() - oneMonthAgo.getTime()) / (24 * 60 * 60 * 1000)) // pickTime 改变时，滑条也要改变
-  himawariPic_url.value = getPicUrl(pickTime.value) // 更新图片地址
-  fy4bChinaPic_url.value = getFy4bChinaPicUrl(pickTime.value) // 更新图片地址
-  fy4bWeatherPic_url.value = getFy4bWeatherPicUrl(pickTime.value) // 更新图片地址
+  getPics() // 刷新图片
 }
 
-// 向前向后选择
+// 点击向前向后按钮选择时间
 const handleFrontOrBack = (isFront: boolean) => {
-  const time = pickTime.value
-  const newTime = new Date(isFront ? time.getTime() - 60 * 60 * 1000 : time.getTime() + 60 * 60 * 1000)
-  if (newTime.getTime() > utcNow.getTime()) {
+  const time = pickTime.value // 获取当前选择的时间
+  let newTime = ref<Date>(time)
+
+  // 向日葵系列卫星时，点击向前向后按钮，时间跳动1小时
+  if (satellite.value === 'himawari8' || satellite.value === 'himawari9') {
+    const minute = time.getMinutes()
+    const newMinute = Math.floor(minute / 10) * 10
+    time.setMinutes(newMinute)
+    time.setSeconds(0)
+    newTime.value = new Date(isFront ? time.getTime() - 60 * 60 * 1000 : time.getTime() + 60 * 60 * 1000)
+  }
+
+  // 风云4号卫星时，点击向前向后按钮，时间跳动15分钟
+  if (satellite.value === 'fy4b' || satellite.value === 'fy4bWeather') {
+    const minute = time.getMinutes()
+    const newMinute = Math.floor(minute / 15) * 15
+    time.setMinutes(newMinute)
+    time.setSeconds(0)
+    newTime.value = new Date(isFront ? time.getTime() - 60 * 15 * 1000 : time.getTime() + 60 * 15 * 1000)
+  }
+
+  if (newTime.value.getTime() > utcNow.getTime()) {
     pickTime.value = utcNow
     return
   }
-  pickTime.value = newTime
-  himawariPic_url.value = getPicUrl(pickTime.value)
-  fy4bChinaPic_url.value = getFy4bChinaPicUrl(pickTime.value)
-  fy4bWeatherPic_url.value = getFy4bWeatherPicUrl(pickTime.value)
-}
 
-// 判断当前时间是否可被选择
-const disabledDate = (time: any) => {
-  return time.getTime() > utcNow.getTime()
+  pickTime.value = newTime.value
+  getPics()
 }
 
 // 滑条功能
 const sliderValue = ref(100)
 
-// 滑条起始时间
+// 滑条起始时间(100天前)
 const oneMonthAgo = new Date(utcNow.getTime() - 100 * 24 * 60 * 60 * 1000)
 
 // 映射滑条值到时间
@@ -61,11 +90,12 @@ const mapSliderValueToTime = (value: number) => {
 // 滑条操作
 const handleChangeSlide = (value: any) => {
   pickTime.value = mapSliderValueToTime(value)
-  himawariPic_url.value = getPicUrl(pickTime.value)
-  fy4bChinaPic_url.value = getFy4bChinaPicUrl(pickTime.value)
+  getPics()
 }
 
+// ------------------//
 // --- 向日葵8号 --- //
+// -----------------//
 // 向日葵8号图片地址 // 示例：https://himawari8.nict.go.jp/img/D531106/1d/550/2024/06/01/081000_0_0.png // 分钟必须为整 10
 
 const himawariBase_url = 'https://himawari8.nict.go.jp/img/D531106/1d/550/' // '2024/05/01/082000_0_0.png'
@@ -88,10 +118,21 @@ const getPicUrl = (time: any) => {
 
 // 向日葵8号四分片高清图
 // const himawariHighPicBase_url = 'https://himawari8.nict.go.jp/img/D531106/2d/550/' // 2024/05/01/082000 // _0_0.png // _0_1.png // _1_0.png // _1_1.png
+/*
 const himawariHighPic_url1 = ref('')
 const himawariHighPic_url2 = ref('')
 const himawariHighPic_url3 = ref('')
 const himawariHighPic_url4 = ref('')
+*/
+
+
+// ------------------//
+// --- 向日葵9号 --- //
+// ------------------//
+// 圆盘文件列表 https://www.data.jma.go.jp/mscweb/data/himawari/list_fd_.html
+// 圆盘图像示例 https://www.data.jma.go.jp/mscweb/data/himawari/img/fd_/fd__trm_0000.jpg
+// 中亚地区文件列表 https://www.data.jma.go.jp/mscweb/data/himawari/list_ca1.html
+// 中亚地区图像示例 https://www.data.jma.go.jp/mscweb/data/himawari/img/ca1/ca1_trm_0000.jpg
 
 
 // ------------------//
@@ -123,23 +164,25 @@ const getFy4bWeatherPicUrl = (time: any) => {
   // 检查时间是否符合要求（24小时内，15分钟粒度）
   const now = new Date()
   const diff = now.getTime() - time.getTime()
+
   if (diff > 24 * 60 * 60 * 1000 && satellite.value === 'fy4bWeather') {
     console.log('时间超过24小时')
     pickTime.value = new Date(now.getTime() - 24 * 60 * 60 * 1000) // 选择24小时前的时间
   }
+
+  // 检查分钟数是否为15的倍数
   let minute = time.getMinutes().toString().padStart(2, '0').toString()
-  console.log('minute:', minute)
+  // 如果分钟数不是15的倍数，将分钟数设置为向前最接近的15的倍数
   if (minute % 15 !== 0) {
     minute = (Math.floor(minute / 15) * 15).toString().padStart(2, '0').toString()
   }
-  console.log('minute:', minute)
 
   const year = time.getFullYear()
   const month = (time.getMonth() + 1).toString().padStart(2, '0').toString()
   const day = time.getDate().toString().padStart(2, '0').toString()
   const hour = time.getHours().toString().padStart(2, '0').toString()
   const url = fy4bWeatherBase_url + year + '/' + month + '/' + day + '/' + fy4bWeatherBase_url2 + year + month + day + hour + minute + '00' + '000.JPG'
-  console.log(url)
+  // console.log(url)
   return url
 }
 
@@ -165,10 +208,14 @@ const noaaAtlanticAreaUrl = 'https://gis.nnvl.noaa.gov/arcgis/rest/services/TRUE
 
 // 获取图片
 onMounted(() => {
+  getPics()
+})
+
+const getPics = () => {
   himawariPic_url.value = getPicUrl(pickTime.value)
   fy4bChinaPic_url.value = getFy4bChinaPicUrl(pickTime.value)
   fy4bWeatherPic_url.value = getFy4bWeatherPicUrl(pickTime.value)
-})
+}
 
 // 当前图例是否可调时间
 const isPickTimeAble = ref(false)

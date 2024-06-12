@@ -3,11 +3,25 @@ import { ref, onMounted } from 'vue';
 import { menuItems } from './menuItems.js';
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { isCollapse } from '@/components/Menu.vue';
+import { useColorSchemeStore } from '~/stores/colorSchemeStore.js';
 
 const supabase = useSupabaseClient()
 const userName = ref<any | null>(null)
 const userEmail = ref<any | null>(null)
 const userRole = ref<any>()
+
+const colorSchemeStore = useColorSchemeStore()
+const colorScheme = ref('light')
+
+const handleColorScheme = () => {
+  if (colorScheme.value === 'light') {
+    colorScheme.value = 'light'
+    colorSchemeStore.toggleMode('light')
+  } else {
+    colorScheme.value = 'dark'
+    colorSchemeStore.toggleMode('dark')
+  }
+}
 
 onMounted(async () => {
   const { data, error } = await supabase.auth.getUser()
@@ -59,7 +73,8 @@ const handleCollapse = () => {
         <DArrowLeft />
       </el-icon>
     </el-button>
-    <div>
+    <div class="flex items-center gap-4">
+      <el-switch v-model="colorScheme" active-value="dark" inactive-value="light" @change="handleColorScheme" />
       <el-popover placement="bottom-end" :title="userName || 'No Login'" :width="200" trigger="click"
         content="this is content, this is content, this is content">
         <template #reference>
