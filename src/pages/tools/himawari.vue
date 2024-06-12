@@ -4,7 +4,7 @@ import { FullScreen, DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { fa } from 'element-plus/es/locales.mjs';
 
 // 卫星选择
-const satellite = ref('himawari8') // fy4b
+const satellite = ref('himawari8')
 
 // 获取当前时间
 const now = new Date()
@@ -24,6 +24,7 @@ const handleChangeTime = (event: any) => {
   sliderValue.value = Math.floor((pickTime.value.getTime() - oneMonthAgo.getTime()) / (24 * 60 * 60 * 1000)) // pickTime 改变时，滑条也要改变
   himawariPic_url.value = getPicUrl(pickTime.value) // 更新图片地址
   fy4bChinaPic_url.value = getFy4bChinaPicUrl(pickTime.value) // 更新图片地址
+  fy4bWeatherPic_url.value = getFy4bWeatherPicUrl(pickTime.value) // 更新图片地址
 }
 
 // 向前向后选择
@@ -36,6 +37,8 @@ const handleFrontOrBack = (isFront: boolean) => {
   }
   pickTime.value = newTime
   himawariPic_url.value = getPicUrl(pickTime.value)
+  fy4bChinaPic_url.value = getFy4bChinaPicUrl(pickTime.value)
+  fy4bWeatherPic_url.value = getFy4bWeatherPicUrl(pickTime.value)
 }
 
 // 判断当前时间是否可被选择
@@ -79,7 +82,7 @@ const getPicUrl = (time: any) => {
   const minute = (Math.floor(nowMinute / 10) * 10).toString().padStart(2, '0').toString(); // 将分钟数设置为最接近的整10分钟
   const second = '00'
   const url = himawariBase_url + year + month + day + hour + minute + second + '_0_0.png'
-  console.log(url)
+  // console.log(url)
   return url
 }
 
@@ -91,14 +94,20 @@ const himawariHighPic_url3 = ref('')
 const himawariHighPic_url4 = ref('')
 
 
+// ------------------//
 // --- 风云4号B星 --- //
+// ------------------//
 // 中国区域 // https://img.nsmc.org.cn/CLOUDIMAGE/FY4B/AGRI/GCLR/SEC/china/2024/20240611/FY4B_china_20240611090000.JPG
+// 中国区域(气象局) // https://weather.cma.cn/file/2024/06/12/SEVP_NSMC_WXBL_FY4B_ETCC_ACHN_LNO_PY_20240612001500000.JPG // 只支持 24h 内图像，时间粒度为 15 分钟
 // 全圆盘 // https://img.nsmc.org.cn/CLOUDIMAGE/FY4B/AGRI/GCLR/DISK/FY4B-_AGRI--_N_DISK_1050E_L2-_GCLR_MULT_NOM_20240611094500_20240611095959_1000M_V0001.JPG
-// 全圆盘 // https://img.nsmc.org.cn/CLOUDIMAGE/FY4B/AGRI/GCLR/DISK/FY4B-_AGRI--_N_DISK_1050E_L2-_GCLR_MULT_NOM_20240611071500_20240611072959_1000M_V0001.JPG
 // 图片尺寸过大，暂不放出功能
 
 const fy4bChinaBase_url = 'https://img.nsmc.org.cn/CLOUDIMAGE/FY4B/AGRI/GCLR/SEC/china/' // '2024/20240611/FY4B_china_20240611090000.JPG'
 const fy4bChinaPic_url = ref('')
+
+const fy4bWeatherBase_url = 'https://weather.cma.cn/file/' // '2024/06/12/' //SEVP_NSMC_WXBL_FY4B_ETCC_ACHN_LNO_PY_20240612000000000.JPG'
+const fy4bWeatherBase_url2 = 'SEVP_NSMC_WXBL_FY4B_ETCC_ACHN_LNO_PY_'
+const fy4bWeatherPic_url = ref('')
 
 const getFy4bChinaPicUrl = (time: any) => {
   const year = time.getFullYear()
@@ -106,12 +115,38 @@ const getFy4bChinaPicUrl = (time: any) => {
   const day = time.getDate().toString().padStart(2, '0').toString()
   const hour = time.getHours().toString().padStart(2, '0').toString()
   const url = fy4bChinaBase_url + year + '/' + year + month + day + '/' + 'FY4B_china_' + year + month + day + hour + '00' + '00' + '.JPG'
+  // console.log(url)
+  return url
+}
+
+const getFy4bWeatherPicUrl = (time: any) => {
+  // 检查时间是否符合要求（24小时内，15分钟粒度）
+  const now = new Date()
+  const diff = now.getTime() - time.getTime()
+  if (diff > 24 * 60 * 60 * 1000 && satellite.value === 'fy4bWeather') {
+    console.log('时间超过24小时')
+    pickTime.value = new Date(now.getTime() - 24 * 60 * 60 * 1000) // 选择24小时前的时间
+  }
+  let minute = time.getMinutes().toString().padStart(2, '0').toString()
+  console.log('minute:', minute)
+  if (minute % 15 !== 0) {
+    minute = (Math.floor(minute / 15) * 15).toString().padStart(2, '0').toString()
+  }
+  console.log('minute:', minute)
+
+  const year = time.getFullYear()
+  const month = (time.getMonth() + 1).toString().padStart(2, '0').toString()
+  const day = time.getDate().toString().padStart(2, '0').toString()
+  const hour = time.getHours().toString().padStart(2, '0').toString()
+  const url = fy4bWeatherBase_url + year + '/' + month + '/' + day + '/' + fy4bWeatherBase_url2 + year + month + day + hour + minute + '00' + '000.JPG'
   console.log(url)
   return url
 }
 
 
+// ----------------------------------------//
 // --- NOAA 美国国家海洋和大气管理局卫星 --- //
+// ---------------------------------------//
 // https://gis.nnvl.noaa.gov/arcgis/rest/services/TRUE/TRUE_daily_750m/ImageServer/exportImage?f=image&bbox=-16458582.365364926%2C1591439.807728032%2C-2907825.9909724947%2C9800165.14932749&imageSR=102100&bboxSR=102100&size=1385%2C839
 // https://gis.nnvl.noaa.gov/arcgis/rest/services/TRUE/TRUE_daily_750m/ImageServer/exportImage?f=image&bbox=-16458582.365364926,1591439.807728032,-2907825.9909724947,9800165.14932749&imageSR=102100&bboxSR=102100&size=1385,839
 // https://gis.nnvl.noaa.gov/arcgis/rest/services/TRUE/TRUE_daily_750m/ImageServer/exportImage?f=image
@@ -132,15 +167,16 @@ const noaaAtlanticAreaUrl = 'https://gis.nnvl.noaa.gov/arcgis/rest/services/TRUE
 onMounted(() => {
   himawariPic_url.value = getPicUrl(pickTime.value)
   fy4bChinaPic_url.value = getFy4bChinaPicUrl(pickTime.value)
+  fy4bWeatherPic_url.value = getFy4bWeatherPicUrl(pickTime.value)
 })
 
 // 当前图例是否可调时间
 const isPickTimeAble = ref(false)
 onMounted(() => {
-  isPickTimeAble.value = satellite.value === 'himawari8' || satellite.value === 'fy4b'
+  isPickTimeAble.value = satellite.value === 'himawari8' || satellite.value === 'fy4b' || satellite.value === 'fy4bWeather'
 })
 watch(() => satellite.value, (value) => {
-  isPickTimeAble.value = value === 'himawari8' || value === 'fy4b'
+  isPickTimeAble.value = value === 'himawari8' || value === 'fy4b' || value === 'fy4bWeather'
 })
 
 // 实时获取当前时间 用于全屏模式下显示时间
@@ -177,7 +213,6 @@ onMounted(() => {
   }, 60000)
 })
 
-
 // 检测图片是否可用
 const checkPic = async () => {
   await fetch(himawariPic_url.value)
@@ -211,7 +246,8 @@ const checkPic = async () => {
       <!--Content-->
       <div class="pt-4 flex justify-center min-h-72">
         <img v-if="satellite === 'himawari8'" :src="himawariPic_url" alt="himawari8 Pic" class="w-full" />
-        <img v-else-if="satellite === 'fy4a'" :src="fy4bChinaPic_url" alt="fy4bChina Pic" class="w-full" />
+        <img v-else-if="satellite === 'fy4b'" :src="fy4bChinaPic_url" alt="fy4bChina Pic" class="w-full" />
+        <img v-else-if="satellite === 'fy4bWeather'" :src="fy4bWeatherPic_url" alt="fy4bWeather Pic" class="w-full" />
         <img v-else-if="satellite === 'noaaChina'" :src="noaaChinaAreaUrl" alt="noaaChina Pic" class="w-full" />
         <img v-else-if="satellite === 'noaaPacific'" :src="noaaPacificAreaUrl" alt="noaaPacific Pic" class="w-full" />
         <img v-else-if="satellite === 'noaaAtlantic'" :src="noaaAtlanticAreaUrl" alt="noaaAtlantic Pic"
@@ -235,7 +271,8 @@ const checkPic = async () => {
         <div class="container flex items-center justify-center gap-4">
           <el-select v-model="satellite" placeholder="Select" style="width: 240px">
             <el-option label="向日葵8号" value="himawari8" />
-            <!--<el-option label="风云4号" value="fy4a" />-->
+            <!--<el-option label="风云4号" value="fy4b" />-->
+            <el-option label="风云4号" value="fy4bWeather" />
             <el-option label="NOAA 中国地区" value="noaaChina" />
             <el-option label="NOAA 太平洋地区" value="noaaPacific" />
             <el-option label="NOAA 大西洋地区" value="noaaAtlantic" />
@@ -303,7 +340,6 @@ const checkPic = async () => {
 </template>
 
 <style>
-
 #starContain .el-date-editor--datetime {
   --el-fill-color-blank: #212121;
   --el-border-color-hover: #00000000;
