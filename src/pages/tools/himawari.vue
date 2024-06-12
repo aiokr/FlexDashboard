@@ -14,13 +14,9 @@ const pickTime = ref(new Date(now.getTime() + now.getTimezoneOffset() * 60000))
 // 选择时间
 const handleChangeTime = (event: any) => {
 
-  // 选择时间大于当前时间时，选择当前时间
   if (event.getTime() > utcNow.getTime()) {
     pickTime.value = utcNow
-    return
   }
-
-  pickTime.value = event // 更新选择时间
 
   // 向日葵8号卫星时，时间为整10分钟
   if (satellite.value === 'himawari8') {
