@@ -1,7 +1,6 @@
 <script setup async lang="ts">
 import { onMounted, ref } from 'vue';
 import { FullScreen, DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
-import { fa } from 'element-plus/es/locales.mjs';
 
 // 卫星选择
 const satellite = ref('himawari8') // fy4b fy4bWeather noaaChina noaaPacific noaaAtlantic himawari9
