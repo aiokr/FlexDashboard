@@ -1,4 +1,6 @@
 import fs from 'node:fs/promises'
+import fse from 'fs-extra';
+import { promisify } from 'util';
 import { copyFile } from 'node:fs'
 import { resolve } from 'path'
 import { parallel, series } from 'gulp';
@@ -13,7 +15,11 @@ export const webOutput = resolve(buildOutput, 'web') // 网页端输出目录
 export const crxOutput = resolve(buildOutput, 'crx') // Chrome 插件输出目录
 
 // 清理
+const cleanPromise = promisify(fse.remove);
 export const clean = () => {
+  return cleanPromise(buildOutput)
+    .then(() => console.log('移除 dist 目录成功'))
+    .catch((err: any) => console.error('清理输出目录错误:', err));
 }
 
 // 构建所有组件
@@ -34,20 +40,15 @@ const buildChain = {
 }
 
 
+// 将 fse.copy 转换为 Promise 形式
+const copyPromise = promisify(fse.copy);
 // 复制文件到根目录的 dist 文件夹
 export const copyFiles = () => {
   console.log('copy: ' + webRoot + ' to: ' + webOutput);
-  copyFile(
-    webRoot + '/.output',
-    webOutput,
-    (err) => {
-      if (err) {
-        console.error('复制文件时发生错误:', err);
-        return;
-      }
-      console.log('文件复制成功');
-    }
-  );
+  // 返回一个 Promise，确保 Gulp 知道何时任务完成
+  return copyPromise(webRoot + '/.output', webOutput)
+    .then(() => console.log('文件复制成功'))
+    .catch((err: any) => console.error('复制文件时发生错误:', err));
 }
 
-export default exports.build = series(parallel([buildChain.web]), copyFiles);
+export default exports.build = series(clean, buildChain.web, copyFiles);
