@@ -1,0 +1,16 @@
+{
+  "name": "@flexboard/build",
+  "packageManager": "pnpm@8.14.1",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "gulp -f gulpfile.ts"
+  },
+  "dependencies": {
+    "@flexboard/web": "workspace:*",
+    "gulp": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/gulp": "^4.0.17"
+  }
+}
