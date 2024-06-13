@@ -1,13 +1,13 @@
 {
-  "name": "flexboard",
+  "name": "@flexboard/web",
   "packageManager": "pnpm@8.14.1",
   "private": true,
   "scripts": {
-    "build": "pnpm -r build",
-    "dev": "pnpm --filter web dev",
-    "generate": "pnpm --filter web generate",
-    "preview": "pnpm --filter web preview",
-    "postinstall": "pnpm --filter web postinstall"
+    "build": "nuxt build",
+    "dev": "prisma generate && nuxt dev",
+    "generate": "prisma generate && nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@nuxtjs/supabase": "^1.2.2",
