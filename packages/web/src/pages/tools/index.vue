@@ -1,6 +1,6 @@
 <script setup async lang="ts">
 import { onMounted, ref } from 'vue';
-import { Files, Loading } from '@element-plus/icons-vue'
+import { Files, Loading, MagicStick } from '@element-plus/icons-vue'
 
 const tools = [
   {
@@ -15,8 +15,14 @@ const tools = [
     ]
   },
   {
-    category: 'PDF 工具',
+    category: '文字工具',
     tools: [
+      {
+        title: 'FlexCard',
+        path: '/flexcard',
+        icon: MagicStick,
+        color: 'orange'
+      },
       {
         title: 'PDF 单面扫描合并',
         path: '/tools/pdf',
@@ -57,6 +63,14 @@ const tools = [
 
 .blue-bg {
   @apply from-blue-100;
+}
+
+.orange-icon {
+  @apply bg-orange-400;
+}
+
+.orange-bg {
+  @apply from-orange-100;
 }
 
 .red-icon {
