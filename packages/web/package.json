@@ -1,12 +1,12 @@
 {
-  "name": "flexboard",
+  "name": "flexboard@web",
   "private": true,
   "scripts": {
-    "build": "pnpm run -C packages/web build",
-    "dev": "pnpm run -C packages/web dev",
-    "generate": "pnpm run -C packages/web generate",
-    "preview": "pnpm run -C packages/web preview",
-    "postinstall": "pnpm run -C packages/web postinstall"
+    "build": "nuxt build",
+    "dev": "prisma generate && nuxt dev",
+    "generate": "prisma generate && nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@nuxtjs/supabase": "^1.2.2",
@@ -15,12 +15,15 @@
     "@prisma/client": "^5.15.0",
     "@prisma/extension-accelerate": "^1.0.0",
     "@supabase/supabase-js": "^2.43.4",
+    "element-plus": "^2.7.4",
     "nuxt": "^3.11.2",
+    "pdf-lib": "^1.17.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
+    "@element-plus/nuxt": "^1.0.9",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
     "prisma": "^5.15.0",

@@ -26,9 +26,55 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.43.4
         version: 2.43.4
+      nuxt:
+        specifier: ^3.11.2
+        version: 3.11.2(@opentelemetry/api@1.8.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(@unocss/reset@0.60.4)(async-validator@4.2.5)(encoding@0.1.13)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.18.0))(vue@3.4.27))(ioredis@5.4.1)(rollup@4.18.0)(terser@5.31.1)(unocss@0.60.4(postcss@8.4.38)(rollup@4.18.0)(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1)))(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1))
+      pinia:
+        specifier: ^2.1.7
+        version: 2.1.7(vue@3.4.27)
+      vue:
+        specifier: ^3.4.27
+        version: 3.4.27
+      vue-router:
+        specifier: ^4.3.2
+        version: 4.3.2(vue@3.4.27)
+    devDependencies:
+      autoprefixer:
+        specifier: ^10.4.19
+        version: 10.4.19(postcss@8.4.38)
+      postcss:
+        specifier: ^8.4.38
+        version: 8.4.38
+      prisma:
+        specifier: ^5.15.0
+        version: 5.15.0
+      tailwindcss:
+        specifier: ^3.4.4
+        version: 3.4.4
+
+  packages/web:
+    dependencies:
+      '@nuxtjs/supabase':
+        specifier: ^1.2.2
+        version: 1.2.2(rollup@4.18.0)
+      '@nuxtjs/tailwindcss':
+        specifier: ^6.12.0
+        version: 6.12.0(rollup@4.18.0)
+      '@pinia/nuxt':
+        specifier: ^0.5.1
+        version: 0.5.1(rollup@4.18.0)(vue@3.4.27)
+      '@prisma/client':
+        specifier: ^5.15.0
+        version: 5.15.0(prisma@5.15.0)
+      '@prisma/extension-accelerate':
+        specifier: ^1.0.0
+        version: 1.1.0(@prisma/client@5.15.0(prisma@5.15.0))
+      '@supabase/supabase-js':
+        specifier: ^2.43.4
+        version: 2.43.4
       element-plus:
         specifier: ^2.7.4
-        version: 2.7.4(vue@3.4.27)
+        version: 2.7.5(vue@3.4.27)
       nuxt:
         specifier: ^3.11.2
         version: 3.11.2(@opentelemetry/api@1.8.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(@unocss/reset@0.60.4)(async-validator@4.2.5)(encoding@0.1.13)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.18.0))(vue@3.4.27))(ioredis@5.4.1)(rollup@4.18.0)(terser@5.31.1)(unocss@0.60.4(postcss@8.4.38)(rollup@4.18.0)(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1)))(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1))
@@ -47,7 +93,7 @@ importers:
     devDependencies:
       '@element-plus/nuxt':
         specifier: ^1.0.9
-        version: 1.0.9(@element-plus/icons-vue@2.3.1(vue@3.4.27))(element-plus@2.7.4(vue@3.4.27))(rollup@4.18.0)
+        version: 1.0.9(@element-plus/icons-vue@2.3.1(vue@3.4.27))(element-plus@2.7.5(vue@3.4.27))(rollup@4.18.0)
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
@@ -1047,8 +1093,8 @@ packages:
   '@types/lodash-es@4.17.12':
     resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
 
-  '@types/lodash@4.17.4':
-    resolution: {integrity: sha512-wYCP26ZLxaT3R39kiN2+HcJ4kTd3U1waI/cY7ivWYqFP6pW3ZNpvi6Wd6PHZx7T/t8z0vlkXMg3QYLa7DZ/IJQ==}
+  '@types/lodash@4.17.5':
+    resolution: {integrity: sha512-MBIOHVZqVqgfro1euRDWX7OO0fBVUUMrN6Pwm8LQsz8cWhEpihlvR70ENj3f40j58TNxZaWv2ndSkInykNBBJw==}
 
   '@types/node@20.14.2':
     resolution: {integrity: sha512-xyu6WAMVwv6AKFLB+e/7ySZVr/0zLCzOa7rSpq6jNwpqOrUbcACDWC+53d4n2QHOnDou0fbIsg8wZu/sxrnI4Q==}
@@ -1910,8 +1956,8 @@ packages:
   electron-to-chromium@1.4.793:
     resolution: {integrity: sha512-eGGzOCtlwNLVoMgOAXKLvesX6X7HM/KMJ+3x/yjcCBbZfpFhQvZUFvhnHxJT3jHJ8RpstR5npd0krWLPTCoh0g==}
 
-  element-plus@2.7.4:
-    resolution: {integrity: sha512-ADBN3zHdhg8R9m6IXR2B5txSWvCn1+nAD+aA9kaJ4rZHMr37DVX6EOdwUjqAMPKz2xC0tculgkJ5rh5zVNiDNQ==}
+  element-plus@2.7.5:
+    resolution: {integrity: sha512-e4oqhfRGBpdblgsjEBK+tA2+fg1H1KZ2Qinty1SaJl0X49FrMLK0lpXQNheWyBqI4V/pyjVOF9sRjz2hfyoctw==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -4387,11 +4433,11 @@ snapshots:
     dependencies:
       vue: 3.4.27
 
-  '@element-plus/nuxt@1.0.9(@element-plus/icons-vue@2.3.1(vue@3.4.27))(element-plus@2.7.4(vue@3.4.27))(rollup@4.18.0)':
+  '@element-plus/nuxt@1.0.9(@element-plus/icons-vue@2.3.1(vue@3.4.27))(element-plus@2.7.5(vue@3.4.27))(rollup@4.18.0)':
     dependencies:
       '@element-plus/icons-vue': 2.3.1(vue@3.4.27)
       '@nuxt/kit': 3.11.2(rollup@4.18.0)
-      element-plus: 2.7.4(vue@3.4.27)
+      element-plus: 2.7.5(vue@3.4.27)
       magic-string: 0.27.0
       unplugin: 1.10.1
     transitivePeerDependencies:
@@ -5316,9 +5362,9 @@ snapshots:
 
   '@types/lodash-es@4.17.12':
     dependencies:
-      '@types/lodash': 4.17.4
+      '@types/lodash': 4.17.5
 
-  '@types/lodash@4.17.4': {}
+  '@types/lodash@4.17.5': {}
 
   '@types/node@20.14.2':
     dependencies:
@@ -6328,13 +6374,13 @@ snapshots:
 
   electron-to-chromium@1.4.793: {}
 
-  element-plus@2.7.4(vue@3.4.27):
+  element-plus@2.7.5(vue@3.4.27):
     dependencies:
       '@ctrl/tinycolor': 3.6.1
       '@element-plus/icons-vue': 2.3.1(vue@3.4.27)
       '@floating-ui/dom': 1.1.1
       '@popperjs/core': '@sxzz/popperjs-es@2.11.7'
-      '@types/lodash': 4.17.4
+      '@types/lodash': 4.17.5
       '@types/lodash-es': 4.17.12
       '@vueuse/core': 9.13.0(vue@3.4.27)
       async-validator: 4.2.5
