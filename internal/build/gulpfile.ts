@@ -39,14 +39,13 @@ const buildChain = {
   }
 }
 
-
 // 将 fse.copy 转换为 Promise 形式
 const copyPromise = promisify(fse.copy);
-// 复制文件到根目录的 dist 文件夹
+// 复制 web 文件到根目录的 dist 文件夹
 export const copyFiles = () => {
   console.log('copy: ' + webRoot + ' to: ' + webOutput);
   // 返回一个 Promise，确保 Gulp 知道何时任务完成
-  return copyPromise(webRoot + '/.output', webOutput)
+  return copyPromise(webRoot + '/.output', buildOutput)
     .then(() => console.log('文件复制成功'))
     .catch((err: any) => console.error('复制文件时发生错误:', err));
 }
