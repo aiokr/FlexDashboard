@@ -16,6 +16,7 @@
     "@prisma/extension-accelerate": "^1.0.0",
     "@supabase/supabase-js": "^2.43.4",
     "element-plus": "^2.7.4",
+    "html2canvas": "^1.4.1",
     "nuxt": "^3.11.2",
     "pdf-lib": "^1.17.1",
     "pinia": "^2.1.7",
