@@ -1,20 +1,32 @@
 {
-  "name": "flexboard",
-  "packageManager": "pnpm@9.3.0",
+  "name": "@flexboard/web",
   "private": true,
+  "packageManager": "pnpm@8.14.1",
   "scripts": {
-    "build": "pnpm run -C internal/build start",
-    "dev": "pnpm run -C packages/web dev"
+    "build": "nuxt build",
+    "dev": "prisma generate && nuxt dev",
+    "generate": "prisma generate && nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/supabase": "^1.2.2",
+    "@nuxtjs/tailwindcss": "^6.12.0",
+    "@pinia/nuxt": "^0.5.1",
+    "@prisma/client": "^5.15.0",
+    "@prisma/extension-accelerate": "^1.0.0",
+    "@supabase/supabase-js": "^2.43.4",
+    "element-plus": "^2.7.4",
+    "html2canvas": "^1.4.1",
     "nuxt": "^3.11.2",
+    "pdf-lib": "^1.17.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
+    "@element-plus/nuxt": "^1.0.9",
     "autoprefixer": "^10.4.19",
-    "gulp": "^4.0.2",
     "postcss": "^8.4.38",
     "prisma": "^5.15.0",
     "tailwindcss": "^3.4.4"
