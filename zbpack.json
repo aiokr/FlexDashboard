@@ -1,0 +1,5 @@
+{
+    "cache_dependencies": false,
+    "packageManager": "pnpm@8.14.1",
+    "build_command": "pnpm build"
+}

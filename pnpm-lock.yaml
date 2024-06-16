@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@editorjs/editorjs':
+        specifier: ^2.29.1
+        version: 2.29.1
+      '@editorjs/header':
+        specifier: ^2.8.1
+        version: 2.8.1
       '@nuxtjs/supabase':
         specifier: ^1.2.2
         version: 1.2.2(rollup@4.18.0)
@@ -17,6 +23,9 @@ importers:
       '@pinia/nuxt':
         specifier: ^0.5.1
         version: 0.5.1(rollup@4.18.0)(vue@3.4.27)
+      '@popperjs/core':
+        specifier: npm:@sxzz/popperjs-es@^2.11.7
+        version: '@sxzz/popperjs-es@2.11.7'
       '@prisma/client':
         specifier: ^5.15.0
         version: 5.15.0(prisma@5.15.0)
@@ -264,6 +273,9 @@ packages:
     resolution: {integrity: sha512-EeEjMobfuJrwoctj7FA1y1KEbM0+Q1xSjobIEyie9k4haVEBB7vkDvsasw1pM3rO39mL2akxIAzLMUAtrMHZhA==}
     engines: {node: '>=16.13'}
 
+  '@codexteam/icons@0.0.5':
+    resolution: {integrity: sha512-s6H2KXhLz2rgbMZSkRm8dsMJvyUNZsEjxobBEg9ztdrb1B2H3pEzY6iTwI4XUPJWJ3c3qRKwV4TrO3J5jUdoQA==}
+
   '@csstools/selector-resolve-nested@1.1.0':
     resolution: {integrity: sha512-uWvSaeRcHyeNenKg8tp17EVDRkpflmdyvbE0DHo6D/GdBb6PDnCYYU6gRpXhtICMGMcahQmj2zGxwFM/WC8hCg==}
     engines: {node: ^14 || ^16 || >=18}
@@ -279,6 +291,12 @@ packages:
   '@ctrl/tinycolor@3.6.1':
     resolution: {integrity: sha512-SITSV6aIXsuVNV3f3O0f2n/cgyEDWoSqtZMYiAmcsYHydcKrOz3gUxB/iXd/Qf08+IZX4KpgNbvUdMBmWz+kcA==}
     engines: {node: '>=10'}
+
+  '@editorjs/editorjs@2.29.1':
+    resolution: {integrity: sha512-WRT2pCfikMsvySQJqpCU21LfTZaPuxUWsDO8aFGrPx4MKzOR9D+Ur4mNb3jq0FXx2EMqvIWfTyFixJxtjGHTyQ==}
+
+  '@editorjs/header@2.8.1':
+    resolution: {integrity: sha512-y0HVXRP7m2W617CWo3fsb5HhXmSLaRpb9GzFx0Vkp/HEm9Dz5YO1s8tC7R8JD3MskwoYh7V0hRFQt39io/r6hA==}
 
   '@element-plus/icons-vue@2.3.1':
     resolution: {integrity: sha512-XxVUZv48RZAd87ucGS48jPf6pKu0yV5UCg9f4FFwtrYxXOwWuVJo6wOvSLKEoMQKjv8GsX/mhP6UsC1lRwbUWg==}
@@ -4393,6 +4411,8 @@ snapshots:
     dependencies:
       mime: 3.0.0
 
+  '@codexteam/icons@0.0.5': {}
+
   '@csstools/selector-resolve-nested@1.1.0(postcss-selector-parser@6.1.0)':
     dependencies:
       postcss-selector-parser: 6.1.0
@@ -4402,6 +4422,12 @@ snapshots:
       postcss-selector-parser: 6.1.0
 
   '@ctrl/tinycolor@3.6.1': {}
+
+  '@editorjs/editorjs@2.29.1': {}
+
+  '@editorjs/header@2.8.1':
+    dependencies:
+      '@codexteam/icons': 0.0.5
 
   '@element-plus/icons-vue@2.3.1(vue@3.4.27)':
     dependencies:
