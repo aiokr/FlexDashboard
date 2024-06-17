@@ -23,4 +23,4 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   }
-} as any)
+})
